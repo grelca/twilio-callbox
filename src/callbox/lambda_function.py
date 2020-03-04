@@ -1,8 +1,9 @@
-from src import answer, respond
+from . import answer, respond
 
 
 def lambda_handler(event, context):
     try:
+        # TODO: handle existence of Digits more explicitly
         response = respond.handle(event['queryStringParameters']['Digits'])
     except:
         response = answer.handle()

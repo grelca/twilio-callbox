@@ -20,9 +20,7 @@ jobs:
         mkdir ${{ github.workspace }}/dist
     - name: Add source files to package
       run: |
-        mv ${{ github.workspace }}/src ${{ github.workspace }}/dist
-        # lambda_function.py needs to be top level
-        mv ${{ github.workspace }}/dist/src/lambda_function.py ${{ github.workspace }}/dist/lambda_function.py
+        mv ${{ github.workspace }}/src/callbox ${{ github.workspace }}/dist
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
     - name: Install dependencies

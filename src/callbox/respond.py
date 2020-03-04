@@ -1,4 +1,4 @@
-from src import config
+from . import config
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 
