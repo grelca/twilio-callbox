@@ -23,6 +23,6 @@ def handle(code: str) -> VoiceResponse:
     )
 
     # unlock door
-    response.play(digits=9, loop=3)
+    response.play(digits="9w9w9w9w9w9w")
 
     return response
