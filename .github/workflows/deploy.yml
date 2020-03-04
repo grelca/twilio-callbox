@@ -1,6 +1,7 @@
 name: Deploy to Lambda
 
 on:
+  push:
   release:
     types:
       - created
@@ -20,9 +21,7 @@ jobs:
         mkdir ${{ github.workspace }}/dist
     - name: Add source files to package
       run: |
-        mv ${{ github.workspace }}/src ${{ github.workspace }}/dist
-        # lambda_function.py needs to be top level
-        mv ${{ github.workspace }}/dist/src/lambda_function.py ${{ github.workspace }}/dist/lambda_function.py
+        mv ${{ github.workspace }}/src/callbox ${{ github.workspace }}/dist
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
     - name: Install dependencies
@@ -42,7 +41,17 @@ jobs:
       with:
         name: lambda-package
         path: ${{ github.workspace }}/package.zip
-    - name: Update Lambda
+    - name: Update Staging Lambda
+      if: github.event_name == 'push'
+      uses: stcalica/update-lambda@0.0.2
+      with:
+        package: package.zip
+        function-name: answerCallboxStage
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
+        AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Update Production Lambda
+      if: github.event_name == 'release'
       uses: stcalica/update-lambda@0.0.2
       with:
         package: package.zip
