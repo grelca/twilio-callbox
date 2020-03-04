@@ -1,6 +1,2 @@
-bin/
-dist/
-include/
-lib/
 .idea
-.Python
+dist
